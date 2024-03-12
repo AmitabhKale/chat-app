@@ -9,8 +9,15 @@ const io = socketio(server);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-io.on("connection", () => {
+io.on("connection", (socket) => {
   console.log("New WebSocket Connection");
+
+  //   let count = 0;
+  //   socket.emit("countUpdated", count);
+
+  socket.on("sendMessage", (msg) => {
+    io.emit("message", msg);
+  });
 });
 
 const PORT = 5000;
