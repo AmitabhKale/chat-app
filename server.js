@@ -3,7 +3,12 @@ const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
 const formatMessage = require("./utils/messages");
-const { addUser, getUser } = require("./utils/users");
+const {
+  addUser,
+  getUser,
+  removeUser,
+  getUsersInRoom,
+} = require("./utils/users");
 
 const app = express();
 const server = http.createServer(app);
@@ -24,6 +29,11 @@ io.on("connection", (socket) => {
     socket.broadcast
       .to(room)
       .emit("message", formatMessage(`${user.username} has joined!`, "Bot"));
+
+    io.to(user.room).emit("roomData", {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    });
   });
 
   // socket.broadcast.emit(
@@ -34,6 +44,17 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", (msg) => {
     const user = getUser(socket.id);
     io.to(user.room).emit("message", formatMessage(msg, user.username));
+  });
+
+  socket.on("disconnect", () => {
+    const user = removeUser(socket.id);
+
+    if (user) {
+      io.to(user.room).emit(
+        "message",
+        formatMessage(`${user.username} has left the group`, "ADMIN")
+      );
+    }
   });
 });
 
