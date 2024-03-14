@@ -2,6 +2,7 @@ const path = require("path");
 const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
+const formatMessage = require("./utils/messages");
 
 const app = express();
 const server = http.createServer(app);
@@ -11,10 +12,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", (socket) => {
   console.log("New WebSocket Connection");
-  socket.broadcast.emit("message", "A new User has joined");
+  socket.broadcast.emit(
+    "message",
+    formatMessage("A new User has Joined", "Bot")
+  );
 
   socket.on("sendMessage", (msg) => {
-    io.emit("message", msg);
+    io.emit("message", formatMessage(msg, "Jack"));
   });
 });
 

@@ -1,7 +1,7 @@
 const socket = io();
 
 socket.on("message", (msg) => {
-  console.log(`New Message:  ${msg}`);
+  console.log(`New Message:  ${msg.text}`);
   outputMessage(msg);
 });
 
@@ -16,19 +16,13 @@ document.querySelector("#message_form").addEventListener("submit", (e) => {
 });
 
 function outputMessage(message) {
-  const testUser = {
-    name: "John",
-    text: "Blh blah blah",
-    createdAt: "9:12pm",
-  };
-
   const div = document.createElement("div");
   div.className = "chat-message";
   div.innerHTML = `<p>
-  <span class="message-user">${testUser.name}</span>
-  <span class="message-date">${testUser.createdAt}</span>
+  <span class="message-user">${message.username}</span>
+  <span class="message-date">${message.time}</span>
   <p>
-  <p>${message}</p>
+  <p>${message.text}</p>
   `;
 
   document.getElementById("messages").appendChild(div);
