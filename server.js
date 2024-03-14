@@ -11,9 +11,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", (socket) => {
   console.log("New WebSocket Connection");
-
-  //   let count = 0;
-  //   socket.emit("countUpdated", count);
+  socket.broadcast.emit("message", "A new User has joined");
 
   socket.on("sendMessage", (msg) => {
     io.emit("message", msg);

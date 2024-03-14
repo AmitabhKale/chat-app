@@ -4,11 +4,72 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: sans-serif;
+html {
+  font-size: 16px;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
+body {
+  font-family: sans-serif;
+  color: #333333;
+  line-height: 1.4;
+}
+
+input {
+  font-size: 14px;
+  border: 1px solid #dddddd;
+  padding: 12px;
+}
+
+button {
+  cursor: pointer;
+  padding: 12px;
+  background-color: #7c5cbf;
+  border: none;
+  color: white;
+  font-size: 16px;
+  transition: background-color 0.4s ease;
+}
+
+button:hover {
+  background-color: #816fa8;
+}
+
+button:disabled {
+  cursor: default;
+  background-color: #333333;
+}
+
+/* Chat Layout */
+.chat {
+  display: flex;
+}
+
+.chat-sidebar {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 100vh;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  padding: 24px 24px 0 24px;
+  overflow-y: scroll;
+}
+
+.message {
+  margin-bottom: 16px;
+}
+
+.compose-message {
+  display: flex;
+  flex-shrink: 0;
+  margin-top: 16px;
+  padding: 24px;
+}
+
+.compose-message input {
+  border: 1px solid #eeee;
+  flex-grow: 1;
+  margin: 0 16px 0 0;
 }

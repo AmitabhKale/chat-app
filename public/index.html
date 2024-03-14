@@ -9,12 +9,25 @@
   <body>
     <div class="container">
       <h3>Chat App</h3>
-      <form id="form">
-        <input type="text" id="message" />
-        <button>Send</button>
-      </form>
+      <div class="chat">
+        <div id="sidebar" class="chat-sidebar"></div>
 
-      <ul id="list"></ul>
+        <div class="chat-main">
+          <div class="chat-messages" id="messages"></div>
+
+          <div class="compose-message">
+            <form id="message_form">
+              <input
+                type="text"
+                id="message_input"
+                autocomplete="off"
+                placeholder="Message"
+              />
+              <button>Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="socket.io/socket.io.js"></script>

@@ -9,5 +9,7 @@ document.querySelector("#form").addEventListener("submit", (e) => {
 
   const msg = e.target.elements.message.value;
 
+  e.target.elements.message.focus();
+
   socket.emit("sendMessage", msg);
 });
