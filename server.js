@@ -3,6 +3,7 @@ const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
 const formatMessage = require("./utils/messages");
+const { addUser, getUser } = require("./utils/users");
 
 const app = express();
 const server = http.createServer(app);
@@ -14,13 +15,15 @@ io.on("connection", (socket) => {
   console.log("New WebSocket Connection");
 
   socket.on("join", ({ username, room }) => {
-    socket.join(room);
+    const { user } = addUser({ id: socket.id, username, room });
+
+    socket.join(user.room);
 
     socket.emit("message", formatMessage("Welcome", "Bot"));
 
     socket.broadcast
       .to(room)
-      .emit("message", formatMessage(`${username} has joined!`, "Bot"));
+      .emit("message", formatMessage(`${user.username} has joined!`, "Bot"));
   });
 
   // socket.broadcast.emit(
@@ -29,7 +32,8 @@ io.on("connection", (socket) => {
   // );
 
   socket.on("sendMessage", (msg) => {
-    io.emit("message", formatMessage(msg, "Jack"));
+    const user = getUser(socket.id);
+    io.to(user.room).emit("message", formatMessage(msg, user.username));
   });
 });
 
