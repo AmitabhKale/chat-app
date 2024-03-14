@@ -27,3 +27,10 @@ function outputMessage(message) {
 
   document.getElementById("messages").appendChild(div);
 }
+
+const { username, room } = Qs.parse(location.search, {
+  ignoreQueryPrefix: true,
+});
+
+// console.log(username, room);
+socket.emit("join", { username, room });
