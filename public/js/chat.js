@@ -1,12 +1,15 @@
 const socket = io();
 
 socket.on("message", (msg) => {
-  console.log(`New Message:  ${msg.text}`);
+  console.log(msg);
   outputMessage(msg);
 });
 
+const { username, room } = Qs.parse(location.search, {
+  ignoreQueryPrefix: true,
+});
+
 socket.on("roomData", ({ room, users }) => {
-  // console.log(room, users);
   listUsersofRooms(users);
   showRoomName(room);
 });
@@ -25,6 +28,11 @@ document.querySelector("#message_form").addEventListener("submit", (e) => {
 function outputMessage(message) {
   const div = document.createElement("div");
   div.className = "chat-message";
+
+  if (message.username === username) {
+    div.classList.add("message-them");
+  }
+
   div.innerHTML = `<p>
   <span class="message-user">${message.username}</span>
   <span class="message-date">${message.time}</span>
@@ -48,10 +56,6 @@ function listUsersofRooms(users) {
 function showRoomName(room) {
   document.getElementById("roomName").textContent = `${room} users`;
 }
-
-const { username, room } = Qs.parse(location.search, {
-  ignoreQueryPrefix: true,
-});
 
 // console.log(username, room);
 socket.emit("join", { username, room });

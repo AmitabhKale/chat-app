@@ -85,10 +85,22 @@ button:disabled {
   flex-grow: 1;
   padding: 24px 24px 0 24px;
   overflow-y: scroll;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-message {
+  padding: 4px 12px 8px 12px;
+  background-color: #eee;
+  border-radius: 8px;
   margin-bottom: 16px;
+  max-width: 246px;
+}
+
+.message-them {
+  align-self: flex-end;
+  background-color: #89cff0;
 }
 
 .message-user {
